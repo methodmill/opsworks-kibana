@@ -17,6 +17,6 @@ template "#{node['kibana']['auth_proxy']['install_dir']}/conf.js" do
   user kibana_user
   notifies :reload, 'service[nginx]'
   variables(
-    auth_modules: node['kibana']['auth_proxy']['modules'].to_json
+    :auth_modules => node['kibana']['auth_proxy']['modules'].to_json
   )
 end

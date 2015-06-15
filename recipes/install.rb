@@ -57,13 +57,13 @@ template kibana_config do
   user kibana_user
   group kibana_user
   variables(
-    port: node['kibana']['java_webserver_port'],
-    listen_address: node['kibana']['java_webserver_listen'],
-    index: node['kibana']['config']['kibana_index'],
-    elasticsearch: es_server,
-    default_app_id: node['kibana']['config']['default_app_id'],
-    request_timeout: node['kibana']['config']['request_timeout'],
-    shard_timeout: node['kibana']['config']['shard_timeout']
+    :port => node['kibana']['java_webserver_port'],
+    :listen_address => node['kibana']['java_webserver_listen'],
+    :index => node['kibana']['config']['kibana_index'],
+    :elasticsearch => es_server,
+    :default_app_id => node['kibana']['config']['default_app_id'],
+    :request_timeout => node['kibana']['config']['request_timeout'],
+    :shard_timeout => node['kibana']['config']['shard_timeout']
   )
 end
 
@@ -74,8 +74,8 @@ if install_type == 'file'
 
   runit_service 'kibana' do
     options(
-      user: kibana_user,
-      home: "#{node['kibana']['install_dir']}/current"
+      :user => kibana_user,
+      :home => "#{node['kibana']['install_dir']}/current"
     )
     cookbook 'kibana_lwrp'
     subscribes :restart, "template[#{kibana_config}]", :delayed
