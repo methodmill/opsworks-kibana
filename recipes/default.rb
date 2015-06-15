@@ -68,43 +68,6 @@ when 'git'
     to "#{node['kibana']['install_dir']}/#{node['kibana']['git']['revision']}"\
        "/src"
   end
-when 'file'
-  include_recipe 'libarchive::default'
-
-  cache_path = Chef::Config[:file_cache_path]
-  kibana_version = node['kibana']['version']
-
-  remote_file "#{cache_path}/kibana_#{kibana_version}.tar.gz" do
-    checksum lazy { node['kibana']['file']['checksum'] }
-    source node['kibana']['file']['url']
-    action [:create_if_missing]
-  end
-
-  libarchive_file "kibana_#{node['kibana']['version']}.tar.gz" do
-    path "#{cache_path}/kibana_#{kibana_version}.tar.gz"
-    extract_to node['kibana']['install_dir']
-    owner kibana_user
-    action [:extract]
-  end
-
-  link "#{node['kibana']['install_dir']}/current" do
-    to "#{node['kibana']['install_dir']}/kibana-#{kibana_version}"
-  end
-
-  node.set['kibana']['web_dir'] = "#{node['kibana']['install_dir']}/current"
-  node.save unless Chef::Config[:solo]
-
-  include_recipe 'java::default' if node['kibana']['install_java']
-  include_recipe 'runit::default'
-
-  runit_service 'kibana' do
-    options(
-      user: kibana_user,
-      home: "#{node['kibana']['install_dir']}/current"
-    )
-    cookbook 'opsworks_kibana'
-    subscribes :restart, "template[#{kibana_config}]", :delayed
-  end
 end
 
 template kibana_config do

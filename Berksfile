@@ -4,6 +4,5 @@ metadata
 
 cookbook 'git'
 cookbook 'ark'
-cookbook 'libarchive'
 cookbook 'java'
 cookbook 'runit'
