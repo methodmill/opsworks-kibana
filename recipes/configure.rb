@@ -27,6 +27,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 require 'json'
+
 include_recipe 'kibana'
 
 template "#{node['kibana']['install_dir']}/current/config.js" do

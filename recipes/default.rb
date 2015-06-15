@@ -26,6 +26,8 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+include_recipe 'kibana'
+
 install_type = node['kibana']['install_type']
 kibana_user = node['kibana']['user']
 kibana_config = "#{node['kibana']['install_dir']}/current/"\
