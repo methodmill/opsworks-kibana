@@ -68,19 +68,3 @@ template kibana_config do
     :shard_timeout => node['kibana']['config']['shard_timeout']
   )
 end
-
-if install_type == 'file'
-
-  include_recipe 'java::default' if node['kibana']['install_java']
-  include_recipe 'runit::default'
-
-  runit_service 'kibana' do
-    options(
-      :user => kibana_user,
-      :home => "#{node['kibana']['install_dir']}/current"
-    )
-    cookbook 'kibana_lwrp'
-    subscribes :restart, "template[#{kibana_config}]", :delayed
-  end
-
-end
